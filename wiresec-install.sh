@@ -29,21 +29,21 @@ libtool libusb-1.0-0 libusb-1.0-0-dev make mingw-w64 net-tools pcsc-tools pcscd 
 pkg-config python3-docutils python3-matplotlib python3-pyscard python3-scipy \
 python3-serial python3-yaml rtl-433 swig vpb-utils wireshark
 
-echo '    Making sure pip is installed...'
-VER='^pip .*'
-RES=$(python3 -m pip -V)
-if [[ $RES =~ $VER ]]; then
-    echo '[+] OK'
-else
-    echo '[-] pip is not installed! Installing pip... proceed? (y/n)'
-    read proceed
-    if [[ $xtraPackages == 'n' ]]; then
-        exit 1
-    else
-        echo '    Installing package python3-pip...'
-        sudo apt install python3-pip
-    fi
-fi
+# echo '    Making sure pip is installed...'
+# VER='^pip .*'
+# RES=$(python3 -m pip -V)
+# if [[ $RES =~ $VER ]]; then
+#     echo '[+] OK'
+# else
+#     echo '[-] pip is not installed! Installing pip... proceed? (y/n)'
+#     read proceed
+#     if [[ $xtraPackages == 'n' ]]; then
+#         exit 1
+#     else
+#         echo '    Installing package python3-pip...'
+#         sudo apt install python3-pip
+#     fi
+# fi
 
 
 echo '============================================'
@@ -101,8 +101,11 @@ cd ../../../
 
 
 echo '============================================'
+echo '    Setting up python venv...'
+python3 -m venv venv
+source venv/bin/activate
 echo '    Installing required python packages...'
-python3 -m pip install crccheck geopy pycrypto
+python -m pip install crccheck geopy pycrypto
 
 
 echo '============================================'
@@ -130,7 +133,7 @@ if [[ $xtraPackages == 'y' ]]; then
     sudo apt install kismet
     echo '============================================'
     echo '    Installing additional python packages...'
-    python3 -m pip install dronekit gps3 manuf matplotlib numpy
+    python3 -m pip install dronekit gps3 manuf matplotlib numpy pybluez2
 fi
 
 echo '    Done'
